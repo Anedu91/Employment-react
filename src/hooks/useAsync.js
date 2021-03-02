@@ -36,7 +36,6 @@ export default function useAsync() {
 
   async function run(fn) {
     dispatch({ type: "REQUEST" });
-
     try {
       const response = await fn();
       dispatch({ type: "SUCCESS", payload: response });

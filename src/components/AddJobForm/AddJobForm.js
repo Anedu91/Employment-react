@@ -3,14 +3,21 @@ import cx from "classnames";
 import { Formik, Form } from "formik";
 import { FaSpinner } from "react-icons/fa";
 import * as Yup from "yup";
+import { useHistory } from "react-router-dom";
+
 import Input from "../Input";
-import Select from "../Select/Select";
-import Checkbox from "../Checkbox/Checkbox";
+import Select from "../Select";
+import Checkbox from "../Checkbox";
 
 const selectData = [
   { value: "remote", key: "Remote Job" },
   { value: "onsite", key: "On site Job" },
   { value: "flexible", key: "Flexible job" },
+];
+const typeContractData = [
+  { value: "full_time", key: "Full-time Job" },
+  { value: "part_time", key: "Part-time Job" },
+  { value: "contractor", key: "Contractor Job" },
 ];
 
 const checkBoxData = [
@@ -26,10 +33,10 @@ const initialValues = {
   companyEmail: "",
   companyPhone: "",
   positionName: "",
-  workType: "",
-  category: "",
+  typeContract: "",
+  vacants: "",
   description: "",
-  work_type: "",
+  workType: "",
   area: [],
 };
 const validationSchema = Yup.object({
@@ -41,8 +48,8 @@ const validationSchema = Yup.object({
     .integer("Invalid number format")
     .required("Required"),
   positionName: Yup.string().required("Required"),
-  workType: Yup.string().required("Required"),
-  category: Yup.string().required("Required"),
+  typeContract: Yup.string().required("Required"),
+  vacants: Yup.number().required("Required"),
   description: Yup.string().required("Required"),
 });
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -77,13 +84,21 @@ function AddJobForm(props) {
             <h2 className="text-2xl mt-5 mb-5">Position Information</h2>
             <div className="grid gap-x-10 gap-y-5 grid-cols-2">
               <Input name="positionName" label="Position Name" />
-              <Input name="workType" label="Type of work" />
-              <Input name="category" label="Position Category" />
+              <Select
+                name="typeContract"
+                label="Type of contract"
+                options={typeContractData}
+              />
+              <Input
+                name="vacants"
+                label="Number of positions avaliables"
+                type="number"
+              />
               <Input name="description" label="Work Description" />
             </div>
             <div className="grid gap-x-10 gap-y-5 grid-cols-2 items-center">
               <Select
-                name="work_type"
+                name="workType"
                 label="Type of work"
                 options={selectData}
               />
